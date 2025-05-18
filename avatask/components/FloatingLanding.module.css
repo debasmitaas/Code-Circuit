@@ -1,0 +1,56 @@
+/* components/FloatingLanding.module.css */
+.landingBackground {
+  position: fixed; /* Changed from absolute to fixed to cover entire viewport */
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1; /* This ensures it stays behind your content */
+  pointer-events: none; /* This allows clicking through the background */
+}
+
+.floating {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: float 4s ease-in-out infinite;
+}
+
+.left {
+  left: 10%;
+  top: 25%; /* Adjusted positioning */
+  background-image: url('/img-left.png');
+}
+
+.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('/img-center.png');
+}
+
+.right {
+  right: 10%;
+  top: 25%; /* Adjusted positioning */
+  background-image: url('/img-right.png');
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+/* Special animation for the center element */
+.center {
+  animation: floatCenter 4s ease-in-out infinite;
+}
+
+@keyframes floatCenter {
+  0%   { transform: translate(-50%, -50%) translateY(0); }
+  50%  { transform: translate(-50%, -50%) translateY(-20px); }
+  100% { transform: translate(-50%, -50%) translateY(0); }
+}
