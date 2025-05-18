@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Inter } from "next/font/google";
 import { motion } from "framer-motion";
@@ -15,33 +15,100 @@ export const metadata = {
   description: "Organize tasks with avatars and priority color tags",
 };
 
+// Typewriter component
+const TypewriterText = ({ 
+  text, 
+  speed = 100, 
+  delay = 0,
+  onComplete 
+}: { 
+  text: string; 
+  speed?: number; 
+  delay?: number;
+  onComplete?: () => void;
+}) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (currentIndex < text.length) {
+        setDisplayText(prev => prev + text[currentIndex]);
+        setCurrentIndex(currentIndex + 1);
+      } else if (onComplete && currentIndex === text.length) {
+        onComplete();
+      }
+    }, currentIndex === 0 ? delay : speed);
+
+    return () => clearTimeout(timeout);
+  }, [currentIndex, text, speed, delay, onComplete]);
+
+  return <span>{displayText}</span>;
+};
+
 export default function LandingPage() {
   const [isHovered, setIsHovered] = useState(false);
+  const [showSecondLine, setShowSecondLine] = useState(false);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   
   return (
     <>
       <GradientBackdrop />
       <div
-        className={`${inter.className} min-h-screen flex flex-col items-center justify-center relative`}
+        className={`${inter.className} min-h-screen flex flex-col items-center justify-center relative overflow-hidden`}
       >
        
         {/* Position FloatingLanding first so it appears behind */}
         <FloatingLanding />
        
         <div className="container mx-auto px-4 text-center relative z-10">
-          {/* Large centered heading and tagline */}
-          <h1 className="text-6xl md:text-4xl lg:text-8xl font-bold text-gray-800 mb-6">
-            Team tasks,
-            <br />
-            visualized better.
+          {/* Large centered heading with typewriter effect */}
+          <h1 className="text-6xl md:text-4xl lg:text-8xl font-bold text-gray-800 mb-6 min-h-[200px] flex flex-col items-center justify-center">
+            <div>
+              <TypewriterText 
+                text="Team tasks," 
+                speed={80}
+                delay={500}
+                onComplete={() => setShowSecondLine(true)}
+              />
+            </div>
+            {showSecondLine && (
+              <div>
+                <TypewriterText 
+                  text="visualized better." 
+                  speed={80}
+                  delay={200}
+                  onComplete={() => setShowSubtitle(true)}
+                />
+              </div>
+            )}
           </h1>
           
-          <p className="text-2xl md:text-3xl text-gray-600 max-w-3xl mx-auto">
+          {/* Subtitle with fade-in animation */}
+          <motion.p 
+            className="text-2xl md:text-3xl text-gray-600 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: showSubtitle ? 1 : 0, 
+              y: showSubtitle ? 0 : 20 
+            }}
+            transition={{ duration: 0.5 }}
+            onAnimationComplete={() => setShowButton(true)}
+          >
             Organize tasks with avatars and priority color tags.
-          </p>
+          </motion.p>
           
-          {/* Call to action button with Framer Motion */}
-          <div className="mt-12 flex justify-center">
+          {/* Call to action button with slide-up animation */}
+          <motion.div 
+            className="mt-12 flex justify-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ 
+              opacity: showButton ? 1 : 0, 
+              y: showButton ? 0 : 30 
+            }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <Link href="/todo">
               <motion.button
                 className="border-2 border-black text-black font-medium py-4 px-12 rounded-full text-xl flex items-center gap-2"
@@ -62,7 +129,7 @@ export default function LandingPage() {
                 </motion.div>
               </motion.button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </div>
     </>
