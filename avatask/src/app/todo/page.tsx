@@ -1,9 +1,9 @@
 import React from 'react'
 
-function todopage() {
+function page() {
   return (
-    <div>todo page</div>
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores voluptatem velit, in quod nulla quibusdam suscipit animi asperiores, amet numquam ea nemo fuga, harum pariatur nesciunt autem dignissimos eum iure!</div>
   )
 }
 
-export default todopage
+export default page

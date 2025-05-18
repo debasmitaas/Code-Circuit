@@ -2,13 +2,24 @@
 import { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Inter } from "next/font/google";
+import { Victor_Mono } from "next/font/google";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import FloatingLanding from '../components/FloatingLanding';
 import GradientBackdrop from '../components/GradientBackdrop';
+import Header from "../components/header";
+import localFont from "next/font/local";
 
 // Initialize the font
 const inter = Inter({ subsets: ["latin"] });
+//Victor
+const victor =Victor_Mono({subsets: ["latin"]});
+
+//Mona-Sans Font
+const Monasans = localFont({src:"../fonts/MonaSans-Bold.woff",
+  
+});
+
 
 export const metadata = {
   title: "Avatask – Team To-Do List",
@@ -58,13 +69,13 @@ export default function LandingPage() {
       <div
         className={`${inter.className} min-h-screen flex flex-col items-center justify-center relative overflow-hidden`}
       >
-       
+       <Header/>
         {/* Position FloatingLanding first so it appears behind */}
         <FloatingLanding />
        
         <div className="container mx-auto px-4 text-center relative z-10">
           {/* Large centered heading with typewriter effect */}
-          <h1 className="text-6xl md:text-4xl lg:text-8xl font-bold text-gray-800 mb-6 min-h-[200px] flex flex-col items-center justify-center">
+          <h1 className={`text-6xl md:text-4xl lg:text-8xl ${Monasans.className} text-gray-800 mb-6 min-h-[200px] flex flex-col items-center justify-center`}>
             <div>
               <TypewriterText 
                 text="Team tasks," 
@@ -87,7 +98,7 @@ export default function LandingPage() {
           
           {/* Subtitle with fade-in animation */}
           <motion.p 
-            className="text-2xl md:text-3xl text-gray-600 max-w-3xl mx-auto"
+            className={`text-2xl md:text-3xl ${victor.className} text-gray-600 max-w-3xl mx-auto`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ 
               opacity: showSubtitle ? 1 : 0, 
