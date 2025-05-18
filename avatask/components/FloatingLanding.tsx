@@ -22,7 +22,7 @@ const FloatingLanding: React.FC<FloatingLandingProps> = ({
           width: 'clamp(80px, 15vw, 200px)',
           height: 'clamp(80px, 15vw, 200px)',
           left: 'clamp(1%, 1vw, 10%)',
-          top: '40%',
+          top: '35%',
           transform: 'translateY(-50%) scaleX(-1)' ,
           animation: 'floatLeft 6s ease-in-out infinite',
         }}
@@ -53,8 +53,9 @@ const FloatingLanding: React.FC<FloatingLandingProps> = ({
           backgroundImage: `url('${rightSrc}')`,
           width: 'clamp(90px, 20vw, 250px)',
           height: 'clamp(90px, 20vw, 250px)',
-          right: 'clamp(5%, 1vw, 10%)',
+          right: 'clamp(5%, 0vw, 10%)',
           top: '50%',
+          left :'80%',
           transform: 'translateY(-50%)',
           animation: 'floatRight 6s ease-in-out infinite',
         }}
