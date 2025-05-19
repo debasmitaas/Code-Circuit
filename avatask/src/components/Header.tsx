@@ -19,7 +19,7 @@ interface TeamOption {
 
 
 const Header: React.FC<HeaderProps> = ({ 
-  projectName = "Project Team Spirit"
+  projectName = "Team 1"
 }) => {
   const { theme } = useTheme();
 
@@ -27,10 +27,10 @@ const Header: React.FC<HeaderProps> = ({
   const [selectedTeam, setSelectedTeam] = useState(projectName);
   // Sample team options
   const teamOptions: TeamOption[] = [
-    { id: 'team1', name: 'Project Team Spirit' },
-    { id: 'team2', name: 'Design Squad' },
-    { id: 'team3', name: 'Development Crew' },
-    { id: 'team4', name: 'Marketing Team' }
+    { id: 'team1', name: 'Team 1' },
+    { id: 'team2', name: 'Team 2' },
+    { id: 'team3', name: 'Team 3' },
+    { id: 'team4', name: 'Team 4' }
   ];
   
 

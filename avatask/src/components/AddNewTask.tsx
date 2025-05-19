@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { monaSans, victorMono } from '../app/fonts';
 
 // Define Task interface to match the one in TaskBoard
 interface Task {
@@ -59,14 +60,14 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-      className={`${theme === 'dark' ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-800 border-white'} bg-opacity-75 backdrop-filter backdrop-blur-xl rounded-lg p-6 w-96 shadow-xl border border-opacity-20 transition-colors duration-300`}
+      className={`${theme === 'dark' ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-800 border-white'} bg-opacity-75 backdrop-filter backdrop-blur-xl rounded-lg p-6 w-96 shadow-xl border border-opacity-20 transition-colors duration-300 ${monaSans.className}`}
     >
       <div className="flex justify-between items-center mb-4">
         <motion.h2 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'} transition-colors duration-300`}
+          className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'} transition-colors duration-300 ${monaSans.className}`}
         >
           Add New Task
         </motion.h2>
@@ -93,7 +94,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
           <input
             id="taskTitle"
             type="text"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow appearance-none border rounded w-full py-2 px-3 ${theme === 'dark' ? 'text-white bg-gray-800 border-gray-600' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline transition-colors duration-300`}
             placeholder="Enter task title"
             value={taskTitle}
             onChange={(e) => setTaskTitle(e.target.value)}
@@ -107,7 +108,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
           </label>
           <select
             id="priority"
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow border rounded w-full py-2 px-3 ${theme === 'dark' ? 'text-white bg-gray-800 border-gray-600' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline transition-colors duration-300`}
             value={priority}
             onChange={(e) => setPriority(e.target.value as 'high' | 'medium' | 'low')}
           >
@@ -123,7 +124,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
           </label>
           <select
             id="team"
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow border rounded w-full py-2 px-3 ${theme === 'dark' ? 'text-white bg-gray-800 border-gray-600' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline transition-colors duration-300`}
             value={team}
             onChange={(e) => setTeam(e.target.value as 'Development' | 'Design')}
           >
@@ -151,7 +152,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
           <input
             id="dueDate"
             type="date"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className={`shadow appearance-none border rounded w-full py-2 px-3 ${theme === 'dark' ? 'text-white bg-gray-800 border-gray-600' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline transition-colors duration-300`}
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
           />
@@ -162,7 +163,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
             type="button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`px-4 py-2 rounded-lg ${theme === 'dark' ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-700'} transition-colors duration-300`}
+            className={`px-4 py-2 rounded-full ${theme === 'dark' ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-700'} transition-colors duration-300`}
             onClick={onClose}
           >
             Cancel
@@ -171,7 +172,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
             type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`px-4 py-2 rounded-lg text-white ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-600'} transition-colors duration-300`}
+            className={`px-4 py-2 rounded-full text-white ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-600'} transition-colors duration-300 ${victorMono.className}`}
           >
             Add Task
           </motion.button>

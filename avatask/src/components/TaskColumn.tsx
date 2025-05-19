@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useTheme } from '../context/ThemeContext';
+import { monaSans, victorMono } from '../app/fonts';
 
 // Define types directly in the component for simplicity
 interface Task {
@@ -59,7 +60,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
       onDrop={onDrop}
     >
       <div className={`p-3 font-bold flex justify-between items-center ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'} border-b transition-colors duration-300`}>
-        <span className="text-xl">{title}</span>
+        <span className={`text-xl ${monaSans.className}`}>{title}</span>
       </div>
       <div className="p-3 flex-1 overflow-y-auto scrollbar-hide">
         {getFilteredTasks(tasks).map(task => (
@@ -76,10 +77,11 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
                     <div className="ml-1 w-0 h-0 border-t-8 border-t-transparent border-l-14 border-l-white border-b-8 border-b-transparent"></div>
                   </div>
                 </div>
-                <h3 className="font-semibold text-lg mt-2">Watch video</h3>
+                <div className={`font-semibold ${monaSans.className}`}>Watch video</div>
               </div>
             ) : (
               <>
+                <div className={`text-xs text-gray-500 mt-1 ${victorMono.className}`}>{task.dueDate ? `Due: ${task.dueDate}` : ''}</div>
                 <h3 className="font-semibold text-lg mb-3">{task.title}</h3>
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center">

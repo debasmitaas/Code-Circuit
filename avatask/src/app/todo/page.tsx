@@ -4,12 +4,15 @@ import { Plus } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import TaskBoard from '../../components/TaskBoard';
 import Header from '../../components/Header';
-import AddNewTask from '../../components/AddNewTask';
-import gsap from 'gsap';
+import { useTheme } from '../../context/ThemeContext';
+import { ThemeProvider } from '../../context/ThemeContext';
+import { AnimatePresence, motion } from 'framer-motion';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ThemeProvider, useTheme } from '../../context/ThemeContext';
+import AddNewTask from '../../components/AddNewTask';
+import { monaSans, victorMono } from '../fonts';
 
+// Import GradientBackdrop dynamically to avoid SSR issues
 const GradientBackdrop = dynamic(() => import('../../../components/GradientBackdrop'), { ssr: false });
 
 interface Task {
@@ -114,7 +117,7 @@ function TaskPageContent() {
   }, []);
   
   return (
-    <div className={`flex h-screen relative ${theme === 'dark' ? 'text-gray-100 bg-gray-900' : 'text-gray-800'} transition-colors duration-300 overflow-hidden`} ref={containerRef}>
+    <div className={`flex h-screen relative ${theme === 'dark' ? 'text-gray-100 bg-gray-900' : 'text-gray-800'} transition-colors duration-300 overflow-hidden ${monaSans.className}`} ref={containerRef}>
       <GradientBackdrop />
       
       <div className={`w-full flex flex-col overflow-hidden ${theme === 'dark' ? 'bg-gray-900' : ''} transition-colors duration-300`}>
@@ -127,13 +130,10 @@ function TaskPageContent() {
       </div>
 
       <motion.button 
-        className="fixed bottom-6 right-6 w-14 h-14 bg-white rounded-full shadow-lg flex items-center justify-center"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`fixed bottom-6 right-6 p-4 rounded-full shadow-lg z-10 ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-600'} text-white ${victorMono.className}`}
         onClick={() => setIsModalOpen(true)}
-        whileHover={{ scale: 1.1, rotate: 90 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
       >
         <Plus size={24} className="text-indigo-500" />
       </motion.button>
