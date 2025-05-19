@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import TaskColumn from './TaskColumn';
+import { useTheme } from '../context/ThemeContext';
 // Define types directly in the component for simplicity
 interface Task {
   id: number;
@@ -31,6 +32,7 @@ interface TaskBoardProps {
 }
 
 const TaskBoard: React.FC<TaskBoardProps> = ({ initialTasks }) => {
+  const { theme } = useTheme();
   const [tasks, setTasks] = useState<TaskColumns>(initialTasks);
   const [activeFilters] = useState<ActiveFilters>({
     priority: null,
@@ -82,7 +84,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ initialTasks }) => {
   // No longer need the getAvatarColor function since we're using images
 
   return (
-    <div className="flex h-full space-x-6 justify-center">
+    <div className={`flex h-full space-x-6 justify-center ${theme === 'dark' ? 'bg-gray-900' : ''} transition-colors duration-300`}>
       <TaskColumn 
         title="To-do"
         tasks={tasks['to-do']}

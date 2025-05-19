@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 // Define Task interface to match the one in TaskBoard
 interface Task {
@@ -20,6 +22,7 @@ interface AddNewTaskProps {
 }
 
 const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
+  const { theme } = useTheme();
   const [taskTitle, setTaskTitle] = useState('');
   const [priority, setPriority] = useState<'high' | 'medium' | 'low'>('medium');
   const [team, setTeam] = useState<'Development' | 'Design'>('Development');
@@ -51,20 +54,40 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 w-96">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+      className={`${theme === 'dark' ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-800 border-white'} bg-opacity-75 backdrop-filter backdrop-blur-xl rounded-lg p-6 w-96 shadow-xl border border-opacity-20 transition-colors duration-300`}
+    >
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Add New Task</h2>
-        <button 
-          className="text-gray-500 hover:text-gray-700"
+        <motion.h2 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'} transition-colors duration-300`}
+        >
+          Add New Task
+        </motion.h2>
+        <motion.button 
+          whileHover={{ rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          className={`${theme === 'dark' ? 'text-gray-300 hover:text-gray-100' : 'text-gray-500 hover:text-gray-700'} transition-colors duration-300`}
           onClick={onClose}
         >
           <X size={20} />
-        </button>
+        </motion.button>
       </div>
       
-      <form onSubmit={handleSubmit}>
+      <motion.form 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        onSubmit={handleSubmit}
+      >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="taskTitle">
+          <label className={`block text-sm font-bold mb-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-colors duration-300`} htmlFor="taskTitle">
             Task Title
           </label>
           <input
@@ -79,7 +102,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="priority">
+          <label className={`block text-sm font-bold mb-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-colors duration-300`} htmlFor="priority">
             Priority
           </label>
           <select
@@ -95,7 +118,7 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="team">
+          <label className={`block text-sm font-bold mb-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-colors duration-300`} htmlFor="team">
             Team
           </label>
           <select
@@ -117,12 +140,12 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
               checked={isPersonal}
               onChange={(e) => setIsPersonal(e.target.checked)}
             />
-            <span className="text-gray-700 text-sm font-bold">Personal Task</span>
+            <span className={`text-sm font-bold ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-colors duration-300`}>Personal Task</span>
           </label>
         </div>
         
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dueDate">
+          <label className={`block text-sm font-bold mb-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-colors duration-300`} htmlFor="dueDate">
             Due Date (Optional)
           </label>
           <input
@@ -135,22 +158,26 @@ const AddNewTask: React.FC<AddNewTaskProps> = ({ onClose, onAddTask }) => {
         </div>
         
         <div className="flex justify-end space-x-2">
-          <button 
+          <motion.button 
             type="button"
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-4 py-2 rounded-lg ${theme === 'dark' ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-700'} transition-colors duration-300`}
             onClick={onClose}
           >
             Cancel
-          </button>
-          <button 
+          </motion.button>
+          <motion.button 
             type="submit"
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-4 py-2 rounded-lg text-white ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-600'} transition-colors duration-300`}
           >
             Add Task
-          </button>
+          </motion.button>
         </div>
-      </form>
-    </div>
+      </motion.form>
+    </motion.div>
   );
 };
 

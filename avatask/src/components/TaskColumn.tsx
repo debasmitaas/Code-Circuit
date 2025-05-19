@@ -2,6 +2,7 @@
 import React from 'react';
 import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
+import { useTheme } from '../context/ThemeContext';
 
 // Define types directly in the component for simplicity
 interface Task {
@@ -37,21 +38,36 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
   onDragStart,
   getFilteredTasks
 }) => {
+  const { theme } = useTheme();
+  
+  // Function to get color based on priority
+  const getPriorityColor = (priority: string) => {
+    switch(priority) {
+      case 'high':
+        return theme === 'dark' ? 'bg-red-900 text-red-100' : 'bg-red-100 text-red-800';
+      case 'medium':
+        return theme === 'dark' ? 'bg-yellow-900 text-yellow-100' : 'bg-yellow-100 text-yellow-800';
+      case 'low':
+        return theme === 'dark' ? 'bg-green-900 text-green-100' : 'bg-green-100 text-green-800';
+      default:
+        return theme === 'dark' ? 'bg-gray-700 text-gray-100' : 'bg-gray-100 text-gray-800';
+    }
+  };
   return (
     <div 
-      className="bg-white rounded-lg w-96 flex-shrink-0 flex flex-col min-h-[700px]"
+      className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg w-96 flex-shrink-0 flex flex-col min-h-[700px] task-column transition-colors duration-300`}
       onDragOver={onDragOver}
       onDrop={onDrop}
     >
-      <div className="p-3 font-bold flex justify-between items-center border-b">
+      <div className={`p-3 font-bold flex justify-between items-center ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'} border-b transition-colors duration-300`}>
         <span className="text-xl">{title}</span>
-        <MoreHorizontal size={20} className="text-gray-400" />
+        <MoreHorizontal size={20} className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} transition-colors duration-300`} />
       </div>
       <div className="p-3 flex-1 overflow-y-auto">
         {getFilteredTasks(tasks).map(task => (
           <div 
             key={task.id}
-            className="bg-white p-3 rounded mb-4 shadow-sm border border-gray-100 cursor-grab"
+            className={`${theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-100'} p-3 rounded mb-4 shadow-sm border cursor-grab transition-colors duration-300`}
             draggable
             onDragStart={() => onDragStart(task, columnType)}
           >
@@ -65,44 +81,35 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
                 <h3 className="font-semibold text-lg mt-2">Watch video</h3>
               </div>
             ) : (
-              <h3 className="font-semibold text-lg mb-3">{task.title}</h3>
+              <>
+                <h3 className="font-semibold text-lg mb-3">{task.title}</h3>
+                <div className="flex justify-between items-center mb-3">
+                  <div className="flex items-center">
+                    <span 
+                      className={`px-2 py-1 text-xs rounded-full ${getPriorityColor(task.priority)}`}
+                    >
+                      {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                    </span>
+                    <span 
+                      className={`ml-2 px-2 py-1 text-xs rounded-full ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}
+                    >
+                      {task.team}
+                    </span>
+                    {task.personal && (
+                      <span 
+                        className={`ml-2 px-2 py-1 text-xs rounded-full ${theme === 'dark' ? 'bg-indigo-900 text-indigo-100' : 'bg-indigo-100 text-indigo-800'}`}
+                      >
+                        Personal
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </>
             )}
             
-            {task.progress && (
-              <div className="mb-3">
-                <div className="h-2 w-full bg-indigo-100 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-indigo-500 rounded-full" 
-                    style={{width: `${(task.progress.current / task.progress.total) * 100}%`}}
-                  ></div>
-                </div>
-                <div className="flex items-center mt-1">
-                  <Image 
-                    src="/icons/progress-icon.png" 
-                    alt="Progress" 
-                    width={16} 
-                    height={16} 
-                    className="mr-1" 
-                  />
-                  <span className="text-gray-500 text-sm">{task.progress.current}/{task.progress.total}</span>
-                </div>
-              </div>
-            )}
+
             
-            {task.completed !== undefined && task.total !== undefined && (
-              <div className="mb-3">
-                <div className="flex items-center">
-                  <Image 
-                    src="/icons/completed-icon.png" 
-                    alt="Completed" 
-                    width={16} 
-                    height={16} 
-                    className="mr-1" 
-                  />
-                  <span className="text-gray-500 text-sm">{task.completed}/{task.total} completed</span>
-                </div>
-              </div>
-            )}
+
             
             <div className="flex justify-between items-center">
               <div className="flex -space-x-2">
