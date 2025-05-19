@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
 import { useTheme } from '../context/ThemeContext';
 
@@ -61,9 +60,8 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
     >
       <div className={`p-3 font-bold flex justify-between items-center ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'} border-b transition-colors duration-300`}>
         <span className="text-xl">{title}</span>
-        <MoreHorizontal size={20} className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} transition-colors duration-300`} />
       </div>
-      <div className="p-3 flex-1 overflow-y-auto">
+      <div className="p-3 flex-1 overflow-y-auto scrollbar-hide">
         {getFilteredTasks(tasks).map(task => (
           <div 
             key={task.id}

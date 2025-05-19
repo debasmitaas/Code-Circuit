@@ -17,14 +17,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   
   // Initialize theme on client-side only
   useEffect(() => {
-    // Check for saved theme preference or use system preference
+    // Check for saved theme preference, but always default to light mode
     const savedTheme = localStorage.getItem('theme') as Theme | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     if (savedTheme) {
       setTheme(savedTheme);
-    } else if (systemPrefersDark) {
-      setTheme('dark');
+    } else {
+      // Default to light mode regardless of system preference
+      setTheme('light');
+      localStorage.setItem('theme', 'light');
     }
     
     setMounted(true);

@@ -49,27 +49,22 @@ const initialTasks: TaskColumns = {
 function TaskPageContent() {
   const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // Use a mutable ref for tasks to ensure state updates are reflected immediately
   const tasksRef = useRef<TaskColumns>(initialTasks);
   const [taskState, setTaskState] = useState<TaskColumns>(initialTasks);
   const containerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
   
-  // Direct method to add a task to the board
   const handleAddTask = (newTask: Task) => {
-    // Create updated tasks
     const updatedTasks = {
       ...tasksRef.current,
       'to-do': [...tasksRef.current['to-do'], newTask]
     };
     
-    // Update both the ref and the state
     tasksRef.current = updatedTasks;
     setTaskState(updatedTasks);
     
-    // Log for debugging
     console.log('Added new task:', newTask);
-    console.log('Updated tasks:', updatedTasks);
+    console.log('Updated tasks:', updatedTasks);    
   };
 
   useEffect(() => {
@@ -82,7 +77,6 @@ function TaskPageContent() {
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
       );
 
-      // Smooth scrolling effect for task columns
       const taskColumns = boardRef.current.querySelectorAll('.task-column');
       gsap.fromTo(
         taskColumns,
@@ -120,7 +114,7 @@ function TaskPageContent() {
   }, []);
   
   return (
-    <div className={`flex h-screen relative ${theme === 'dark' ? 'text-gray-100 bg-gray-900' : 'text-gray-800'} transition-colors duration-300`} ref={containerRef}>
+    <div className={`flex h-screen relative ${theme === 'dark' ? 'text-gray-100 bg-gray-900' : 'text-gray-800'} transition-colors duration-300 overflow-hidden`} ref={containerRef}>
       <GradientBackdrop />
       
       <div className={`w-full flex flex-col overflow-hidden ${theme === 'dark' ? 'bg-gray-900' : ''} transition-colors duration-300`}>
