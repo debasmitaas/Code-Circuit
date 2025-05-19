@@ -49,8 +49,28 @@ const initialTasks: TaskColumns = {
 function TaskPageContent() {
   const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // Use a mutable ref for tasks to ensure state updates are reflected immediately
+  const tasksRef = useRef<TaskColumns>(initialTasks);
+  const [taskState, setTaskState] = useState<TaskColumns>(initialTasks);
   const containerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
+  
+  // Direct method to add a task to the board
+  const handleAddTask = (newTask: Task) => {
+    // Create updated tasks
+    const updatedTasks = {
+      ...tasksRef.current,
+      'to-do': [...tasksRef.current['to-do'], newTask]
+    };
+    
+    // Update both the ref and the state
+    tasksRef.current = updatedTasks;
+    setTaskState(updatedTasks);
+    
+    // Log for debugging
+    console.log('Added new task:', newTask);
+    console.log('Updated tasks:', updatedTasks);
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -106,7 +126,9 @@ function TaskPageContent() {
       <div className={`w-full flex flex-col overflow-hidden ${theme === 'dark' ? 'bg-gray-900' : ''} transition-colors duration-300`}>
         <Header />
         <div className="flex-1 overflow-x-auto p-4 scrollbar-hide" ref={boardRef}>
-          <TaskBoard initialTasks={initialTasks} />
+          <TaskBoard 
+            initialTasks={taskState} 
+          />
         </div>
       </div>
 
@@ -146,7 +168,10 @@ function TaskPageContent() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              <AddNewTask onClose={() => setIsModalOpen(false)} />
+              <AddNewTask 
+                onClose={() => setIsModalOpen(false)} 
+                onAddTask={handleAddTask}
+              />
             </motion.div>
           </>
         )}

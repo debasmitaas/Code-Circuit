@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskColumn from './TaskColumn';
 import { useTheme } from '../context/ThemeContext';
 // Define types directly in the component for simplicity
@@ -39,6 +39,13 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ initialTasks }) => {
     team: null,
     personal: null
   });
+  
+
+  
+  // Update tasks when initialTasks changes
+  useEffect(() => {
+    setTasks(initialTasks);
+  }, [initialTasks]);
   
   // Handle drag and drop functionality
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
