@@ -65,7 +65,7 @@ export default function Header() {
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
               className={`text-sm ${victor.className} font-medium`}
             >
-              GitHub
+              GitHub Repo
             </motion.span>
           </Link>
         </div>
