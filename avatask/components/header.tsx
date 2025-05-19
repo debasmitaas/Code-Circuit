@@ -55,7 +55,7 @@ export default function Header() {
       >
         <div className="flex items-center">
           <Link 
-            href="https://github.com " 
+            href="https://github.com/debasmitaas/Code-Circuit " 
             target="_blank" 
             rel="noopener noreferrer"
             className={`text-black/80 hover:text-blue ${victor.className} transition-colors duration-200`}
