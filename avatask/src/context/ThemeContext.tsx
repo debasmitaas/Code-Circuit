@@ -11,22 +11,18 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize with a default theme (will be updated in useEffect)
+  // Always initialize with light theme
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
   
-  // Initialize theme on client-side only
+  // Force light mode on first load
   useEffect(() => {
-    // Check for saved theme preference, but always default to light mode
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    // Set to light mode and save to localStorage
+    setTheme('light');
+    localStorage.setItem('theme', 'light');
     
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Default to light mode regardless of system preference
-      setTheme('light');
-      localStorage.setItem('theme', 'light');
-    }
+    // Also remove any dark mode classes from the document
+    document.documentElement.classList.remove('dark');
     
     setMounted(true);
   }, []);
